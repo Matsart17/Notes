@@ -1,5 +1,6 @@
 package com.app.notes;
 
+import com.app.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ public class NotesService {
     public NotesService(NotesRepository notesRepository) {
         this.notesRepository = notesRepository;
     }
+
     public List<Note> getAllNotes() {
         return notesRepository.findAll();
     }
@@ -27,14 +29,15 @@ public class NotesService {
 
     public Note getNoteById(int noteId) {
         Optional<Note> note = notesRepository.findById(noteId);
-        return note.orElseThrow();
+        return note.orElseThrow(() -> new NotFoundException("Note with id " + noteId + " not exists"));
     }
-    public void merge(Note note, Note tempNote){
+
+    public void merge(Note note, Note tempNote) {
         String title = tempNote.getTitle();
         String text = tempNote.getBody();
-        if (title!=null)
+        if (title != null)
             note.setTitle(title);
-        if (text!=null)
+        if (text != null)
             note.setBody(text);
     }
 
@@ -42,12 +45,14 @@ public class NotesService {
         notesRepository.save(note);
         return ResponseEntity.status(201).body(note);
     }
+
     public void deleteNote(int noteId) {
         Note note = notesRepository
                 .findById(noteId)
-                .orElseThrow();
+                .orElseThrow(() -> new IllegalArgumentException("Note not found with id " + noteId));
         notesRepository.delete(note);
     }
+
     public void deleteAllNotes() {
         notesRepository.deleteAll();
     }

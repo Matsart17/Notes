@@ -1,5 +1,6 @@
 package com.app.notes;
 
+import com.app.exceptions.NotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class NotesController {
             return notesService.getNotesByTitle(value);
         } else if (find_by.equals("noteId")) {
             return List.of(notesService.getNoteById(Integer.parseInt(value)));
-        } else throw null;
+        } else throw new NotFoundException("Note not found with find_by=" + find_by + "not found");
     }
 
     @PostMapping
@@ -57,6 +58,4 @@ public class NotesController {
     public void deleteAllNotes() {
         notesService.deleteAllNotes();
     }
-
-
 }
