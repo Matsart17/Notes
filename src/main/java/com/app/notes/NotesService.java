@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class NotesService {
@@ -27,6 +28,14 @@ public class NotesService {
     public Note getNoteById(int noteId) {
         Optional<Note> note = notesRepository.findById(noteId);
         return note.orElseThrow();
+    }
+    public void merge(Note note, Note tempNote){
+        String title = tempNote.getTitle();
+        String text = tempNote.getBody();
+        if (title!=null)
+            note.setTitle(title);
+        if (text!=null)
+            note.setBody(text);
     }
 
     public ResponseEntity<?> saveNote(Note note) {

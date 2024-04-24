@@ -3,7 +3,6 @@ package com.app.notes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,13 +10,13 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
+@Table(name = "notes")
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotBlank(message = "Title must be not empty")
-    @ElementCollection
-    private Set<String> title;
+    private String title;
     @Column(columnDefinition = "TEXT")
     private String body;
     @Temporal(TemporalType.TIMESTAMP)
@@ -27,23 +26,47 @@ public class Note {
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "timestamp")
-    private String lastUpdateTime;
+    private String updateTime;
 
-    public Note(Set<String> title, String body) {
-        this.title = title;
-        this.body = body;
-    }
+
     @JsonProperty("noteId")
     public Integer getId() {
         return id;
     }
 
-    public Set<String> getTitle() {
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+
+    public String getTitle() {
         return title;
     }
 
+
     public String getBody() {
         return body;
+    }
+
+    public String getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(String creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override
@@ -53,7 +76,8 @@ public class Note {
                 ", title=" + title +
                 ", body='" + body + '\'' +
                 ", creationTime='" + creationTime + '\'' +
-                ", lastUpdateTime='" + lastUpdateTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
                 '}';
     }
+
 }
