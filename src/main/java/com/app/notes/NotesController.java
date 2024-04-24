@@ -23,25 +23,24 @@ public class NotesController {
     }
 
     @GetMapping(path = "{noteId}")
-    public Note getNote(@PathVariable int id) {
-        return notesService.getNoteById(id);
+    public Note getNote(@PathVariable int noteId) {
+        return notesService.getNoteById(noteId);
     }
 
     @GetMapping(params = {"find_by", "value"})
     public List<Note> getNotesBy(@RequestParam String find_by, @RequestParam String value) {
         if (find_by.equals("title")) {
             return notesService.getNotesByTitle(value);
-        } else if (find_by.equals("notId")) {
-            return List.of(notesService.getNoteById(Integer.valueOf(value)));
+        } else if (find_by.equals("noteId")) {
+            return List.of(notesService.getNoteById(Integer.parseInt(value)));
         } else throw null;
     }
 
     @PostMapping
-    public ResponseEntity<?> createNewNote(@Valid @RequestBody Note tempnote) {
-        Note note = new Note();
-        notesService.merge(note, tempnote);
+    public ResponseEntity<?> createNewNote(@Valid @RequestBody Note note) {
         return notesService.saveNote(note);
     }
+
     @PutMapping(path = "{noteId}")
     public ResponseEntity<?> updateNote(@RequestBody Note tempNote, @PathVariable int noteId) {
         Note existingNote = notesService.getNoteById(noteId);

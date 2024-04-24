@@ -6,9 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-
 @Entity
 @Table(name = "notes")
 public class Note {
@@ -27,7 +24,6 @@ public class Note {
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "timestamp")
     private String updateTime;
-
 
     @JsonProperty("noteId")
     public Integer getId() {
