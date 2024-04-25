@@ -6,9 +6,9 @@ import jakarta.persistence.*;
 @Table(indexes =  @Index(name="categoryId", columnList = "categoryName"))
 public class Category {
     @Id
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, name = "name")
     private String name;
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     public Category() {

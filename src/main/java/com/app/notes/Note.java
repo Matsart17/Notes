@@ -17,7 +17,8 @@ public class Note {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String body;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "categories",
             joinColumns = @JoinColumn(name = "noteId"),
             inverseJoinColumns = @JoinColumn(name = "CategoryName"))
