@@ -1,18 +1,20 @@
 package com.app.notes;
 
+import com.app.categories.Category;
+import com.app.categories.CategoryService;
 import com.app.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
 @Component
 public class NotesService {
     private NotesRepository notesRepository;
+    private CategoryService categoriesService;
 
     @Autowired
     public NotesService(NotesRepository notesRepository) {
@@ -35,10 +37,15 @@ public class NotesService {
     public void merge(Note note, Note tempNote) {
         String title = tempNote.getTitle();
         String text = tempNote.getBody();
+        Set<Category> categories = tempNote.getCategories();
         if (title != null)
             note.setTitle(title);
         if (text != null)
             note.setBody(text);
+        if (categories!=null){
+            categoriesService.findCategory(categories);
+            note.setCategories(categories);
+        }
     }
 
     public ResponseEntity<?> saveNote(Note note) {

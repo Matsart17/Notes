@@ -22,6 +22,7 @@ public class CategoryService {
     public List<Category> getCategories() {
         return categoryRepository.findAll();
     }
+
     public Category getCategory(String name) {
         Category category = categoryRepository.findByName(name);
         return category;
@@ -41,6 +42,7 @@ public class CategoryService {
     }
 
     private void checkCategory(Category category) {
+        System.out.println(category);
         if (categoryRepository.findByName(category.getName()) == null)
             categoryRepository.save(category);
     }

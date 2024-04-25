@@ -1,10 +1,12 @@
 package com.app.notes;
 
+import com.app.categories.Category;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "notes")
@@ -15,6 +17,11 @@ public class Note {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String body;
+    @ManyToMany
+    @JoinTable(name = "categories",
+            joinColumns = @JoinColumn(name = "noteId"),
+            inverseJoinColumns = @JoinColumn(name = "CategoryName"))
+    private Set<Category> categories;
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(nullable = false, updatable = false, columnDefinition = "timestamp")
@@ -62,6 +69,14 @@ public class Note {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 
     @Override
