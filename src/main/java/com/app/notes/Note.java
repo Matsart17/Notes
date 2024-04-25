@@ -12,7 +12,6 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank(message = "Title must be not empty")
     private String title;
     @Column(columnDefinition = "TEXT")
     private String body;
