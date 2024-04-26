@@ -12,9 +12,10 @@ import java.util.Optional;
 @Repository
 public interface NotesRepository extends JpaRepository<Note, Integer> {
     @Query("SELECT n FROM Note n JOIN n.categories c WHERE c.name = :categoryName")
-    List<Note> findByCategoryName(@Param("categoryName") String tagName);
+    List<Note> findByCategoryName(@Param("categoryName") String CategoryName);
 
     @Query("SELECT n FROM Note n LEFT JOIN n.categories c WHERE c IS NULL")
     List<Note> findNoneCategory();
+
     public List<Note> findByTitle(String title);
 }

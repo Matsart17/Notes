@@ -1,5 +1,6 @@
 package com.app.notes;
 
+
 import com.app.exceptions.NotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.List;
 @RequestMapping("/api/notes")
 @RestController
 public class NotesController {
-    private final NotesService notesService;
+    private NotesService notesService;
 
     @Autowired
     public NotesController(NotesService notesService) {
@@ -36,6 +37,7 @@ public class NotesController {
             return List.of(notesService.getNoteById(Integer.parseInt(value)));
         } else throw new NotFoundException("Note not found with find_by=" + find_by + "not found");
     }
+
 
     @PostMapping
     public ResponseEntity<?> createNewNote(@Valid @RequestBody Note note) {

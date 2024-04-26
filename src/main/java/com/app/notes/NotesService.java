@@ -17,8 +17,9 @@ public class NotesService {
     private CategoryService categoriesService;
 
     @Autowired
-    public NotesService(NotesRepository notesRepository) {
+    public NotesService(NotesRepository notesRepository, CategoryService categoryService) {
         this.notesRepository = notesRepository;
+        this.categoriesService = categoryService;
     }
 
     public List<Note> getAllNotes() {
@@ -42,7 +43,7 @@ public class NotesService {
             note.setTitle(title);
         if (text != null)
             note.setBody(text);
-        if (categories!=null){
+        if (categories != null) {
             categoriesService.findCategory(categories);
             note.setCategories(categories);
         }
@@ -58,6 +59,14 @@ public class NotesService {
                 .findById(noteId)
                 .orElseThrow(() -> new IllegalArgumentException("Note not found with id " + noteId));
         notesRepository.delete(note);
+    }
+
+    public List<Note> findNotesByCategory(String category) {
+        return notesRepository.findByCategoryName(category);
+    }
+
+    public List<Note> findNoneCategoryNotes() {
+        return notesRepository.findNoneCategory();
     }
 
     public void deleteAllNotes() {
