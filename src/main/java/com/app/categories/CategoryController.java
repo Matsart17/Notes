@@ -49,10 +49,8 @@ public class CategoryController {
         return categoryService.saveCategory(existingCategory);
     }
 
-    @DeleteMapping(path = "categories/{noteId}")
-    public void deleteNote(@PathVariable int noteId) {
-        notesService.deleteNote(noteId);
+    @DeleteMapping(path = "categories/{categoryId}")
+    public void deleteNote(@PathVariable int categoryId) {
+        categoryService.deleteCategory(categoryId);
     }
-
-
 }

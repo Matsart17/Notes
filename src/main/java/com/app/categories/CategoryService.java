@@ -56,6 +56,12 @@ public class CategoryService {
         categoryRepository.save(category);
         return ResponseEntity.status(201).body(category);
     }
+    public void deleteCategory(int categoryId) {
+        Category category = categoryRepository
+                .findById(categoryId)
+                .orElseThrow(() -> new IllegalArgumentException("Note not found with id " + categoryId));
+        categoryRepository.delete(category);
+    }
 
 
 }
