@@ -42,9 +42,9 @@ public class CategoryController {
         return categoryService.saveCategory(category);
     }
 
-    @PutMapping(path = "categories/{categoryName}")
-    public ResponseEntity<?> checkCategory(@RequestBody Category tempCategory, @PathVariable String categoryName) {
-        Category existingCategory = categoryService.getCategory(categoryName);
+    @PutMapping(path = "categories/{categoryId}")
+    public ResponseEntity<?> checkCategory(@RequestBody Category tempCategory, @PathVariable int categoryId) {
+        Category existingCategory = categoryService.getCategory(categoryId);
         categoryService.merge(existingCategory, tempCategory);
         return categoryService.saveCategory(existingCategory);
     }
