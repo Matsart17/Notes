@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api/categories")
+@RequestMapping("/api")
 @RestController
 public class CategoryController {
     private CategoryService categoryService;
@@ -21,38 +21,35 @@ public class CategoryController {
         this.notesService = notesService;
     }
 
-    @GetMapping
+    @GetMapping(path = "categories")
     public List<Category> getCategories() {
         return categoryService.getCategories();
     }
 
-    //    @GetMapping(path = "{categoryName}")
-//    public List<Category> getCategory(@PathVariable String categoryName) {
-//        return List.of(categoryService.getCategory(categoryName));
-//    }
-    @GetMapping(path = "null")
+    @GetMapping(path = "categories/null")
     public List<Note> getNoneCategoryNotes() {
         return notesService.findNoneCategoryNotes();
     }
 
-    @GetMapping(path = "{categoryName}")
+    @GetMapping(path = "categories/{categoryName}")
     public List<Note> findNotesByCategory(@PathVariable String categoryName) {
         System.out.println(List.of(categoryService.getCategory(categoryName)));
         return notesService.findNotesByCategory(categoryName);
     }
 
-    @PostMapping
+    @PostMapping(path = "categories")
     public ResponseEntity<?> createNewCategory(@Valid @RequestBody Category category) {
         return categoryService.saveCategory(category);
     }
 
-    @PutMapping(path = "{categoryName}")
+    @PutMapping(path = "categories/{categoryName}")
     public ResponseEntity<?> checkCategory(@RequestBody Category tempCategory, @PathVariable String categoryName) {
         Category existingCategory = categoryService.getCategory(categoryName);
         categoryService.merge(existingCategory, tempCategory);
         return categoryService.saveCategory(existingCategory);
     }
-    @DeleteMapping(path = "{noteId}")
+
+    @DeleteMapping(path = "categories/{noteId}")
     public void deleteNote(@PathVariable int noteId) {
         notesService.deleteNote(noteId);
     }

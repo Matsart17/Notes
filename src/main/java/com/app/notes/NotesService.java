@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -38,18 +39,21 @@ public class NotesService {
     public void merge(Note note, Note tempNote) {
         String title = tempNote.getTitle();
         String text = tempNote.getBody();
-        Set<Category> categories = tempNote.getCategories();
+        Category category = tempNote.getCategory();
         if (title != null)
             note.setTitle(title);
         if (text != null)
             note.setBody(text);
-        if (categories != null) {
-            categoriesService.findCategory(categories);
-            note.setCategories(categories);
+        if (category != null) {
+            categoriesService.putCategory(category);
+            note.setCategory(category);
         }
     }
 
     public ResponseEntity<?> saveNote(Note note) {
+        Category category = note.getCategory();
+        category = categoriesService.putCategory(category);
+        note.setCategory(category);
         notesRepository.save(note);
         return ResponseEntity.status(201).body(note);
     }

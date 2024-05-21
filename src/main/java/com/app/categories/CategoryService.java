@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+
 @Component
 public class CategoryService {
     private CategoryRepository categoryRepository;
@@ -28,25 +29,33 @@ public class CategoryService {
     }
 
     public void merge(Category category, Category tempCategory) {
+        String name = tempCategory.getName();
         String description = tempCategory.getDescription();
+        if (description != null) {
+            category.setName(name);
+        }
         if (description != null) {
             category.setDescription(description);
         }
     }
 
-    public void findCategory(Set<Category> categories) {
-        categories.forEach(this::checkCategory);
-    }
-
-    public void checkCategory(Category category) {
-        System.out.println(category);
-        if (categoryRepository.findByName(category.getName()) == null)
-            categoryRepository.save(category);
+    public Category putCategory(Category category) {
+        if (category != null) {
+            if (category.getName() == "") {
+                category = null;
+            } else if (categoryRepository.findByName(category.getName()) != null) {
+                category = categoryRepository.findByName(category.getName());
+            } else if (category.getName() != null) {
+                saveCategory(category);
+            }
+        }
+        return category;
     }
 
     public ResponseEntity<?> saveCategory(Category category) {
         categoryRepository.save(category);
         return ResponseEntity.status(201).body(category);
     }
+
 
 }

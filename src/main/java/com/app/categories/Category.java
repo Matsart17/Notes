@@ -3,11 +3,14 @@ package com.app.categories;
 import jakarta.persistence.*;
 
 @Entity
-@Table(indexes =  @Index(name="categoryId", columnList = "categoryName"))
 public class Category {
     @Id
-    @Column(nullable = false, unique = true, name = "name")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false, name = "name")
     private String name;
+
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
@@ -21,6 +24,14 @@ public class Category {
     public Category(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescription() {

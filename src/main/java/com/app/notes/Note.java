@@ -17,12 +17,9 @@ public class Note {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String body;
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinTable(name = "categories",
-            joinColumns = @JoinColumn(name = "noteId"),
-            inverseJoinColumns = @JoinColumn(name = "CategoryName"))
-    private Set<Category> categories;
+    @ManyToOne
+    @JoinColumn(name = "categoryName")
+    private Category category;
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(nullable = false, updatable = false, columnDefinition = "timestamp")
@@ -72,20 +69,24 @@ public class Note {
         this.updateTime = updateTime;
     }
 
-    public Set<Category> getCategories() {
-        return categories;
+    public Category getCategory() {
+        if (category==null){
+            category = new Category("");
+        }
+        return category;
     }
 
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override
     public String toString() {
         return "Note{" +
                 "id=" + id +
-                ", title=" + title +
+                ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
+                ", category=" + category +
                 ", creationTime='" + creationTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 '}';
