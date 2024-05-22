@@ -29,7 +29,7 @@ public class Note {
     @Column(nullable = false, columnDefinition = "timestamp")
     private String updateTime;
 
-    @JsonProperty("noteId")
+    @JsonProperty("id")
     public Integer getId() {
         return id;
     }

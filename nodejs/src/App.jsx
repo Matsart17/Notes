@@ -35,10 +35,10 @@ function App() {
         <div>
             <CreateForm onAddNote={addNote} categories={categories}/>
             <div className={"container"}>
-                {notes && notes.map((item, index) => (
+                {notes && notes.map((item) => (
                     <Note
-                        key={index}
-                        id={index}
+                        key={item.id}
+                        id={item.id}
                         title={item.title}
                         category={item.category.title}
                         body={item.body}
